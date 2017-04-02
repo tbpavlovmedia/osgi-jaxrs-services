@@ -51,6 +51,14 @@
     <developerConnection>scm:git:https://github.com/pavlovmedia/osgi-jaxrs-publisher.git</developerConnection>
   </scm>
 
+  <distributionManagement>
+    <repository>
+      <id>bintray-pavlovmedia-pavlov-media-oss</id>
+      <name>pavlovmedia-pavlov-media-oss</name>
+      <url>https://api.bintray.com/maven/pavlovmedia/pavlov-media-oss/osgi-jaxrs-services/;publish=1</url>
+    </repository>
+  </distributionManagement>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <bundle.category>JAX-RS</bundle.category>
@@ -178,11 +186,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>${maven-deploy-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>${pluginversions.exec-maven-plugin}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
