@@ -1,9 +1,16 @@
-osgi-jaxrs-services [![Build Status](https://travis-ci.org/pavlovmedia/osgi-jax-rs-connector.svg?branch=master)](https://travis-ci.org/pavlovmedia/osgi-jax-rs-connector)
+osgi-jaxrs-services
 ===================
 
 This is a set of OSGi bundles that handles wrapping up Jersey into a bundle that can parse OSGi services to find services that implement JAX-RS logic (pages, providers, and features).
 
 It is largely inspired by [osgi-jax-rs-connector](https://github.com/hstaudacher/osgi-jax-rs-connector) and is fully backwards compatable.
+
+Builds
+------
+| Branch | Status |
+|--------|---------|
+| Master | [![Build Status](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services.svg?branch=master)](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services) |
+| 1.0 | [![Build Status](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services.svg?branch=1.0-release)](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services) |
 
 Reasoning
 ---------
