@@ -96,6 +96,12 @@ public class ComponentHolder<T> implements AutoCloseable {
         throw new IllegalStateException("No service is provisioned");
     }
     
+    /**
+     * This method is to execute a function against this instance that can throw an exception.
+     * @param action the action to execute against this component instance
+     * @return whatever the action returns
+     * @throws E if the action throws an exception
+     */
     public <R,E extends Exception> R withExceptionService(final ExceptionFunction<T,R,E> action) throws E {
         if (actual.isPresent()) {
             return action.apply(actual.get());
@@ -104,9 +110,9 @@ public class ComponentHolder<T> implements AutoCloseable {
     }
     
     /**
-     * This will execute an action with no response against the
+     * This method is to execute an action with no response against this
      * instance
-     * @param action
+     * @param action action to execute against this component instance
      */
     public void againstService(final Consumer<T> action) {
         if (actual.isPresent()) {
@@ -116,6 +122,12 @@ public class ComponentHolder<T> implements AutoCloseable {
         }
     }
     
+    /**
+     * This method is to execute an action against this instance with no 
+     * response but may throw an exception
+     * @param action action to execute against this component instance
+     * @throws E if the action throws an exception
+     */
     public <E extends Exception> void againstExceptionService(final ExceptionConsumer<T, E> action) throws E {
         if (actual.isPresent()) {
             action.consume(actual.get());
@@ -143,7 +155,7 @@ public class ComponentHolder<T> implements AutoCloseable {
     }
     
     /**
-     * This is an inner proxy-class that can still handle ensuring
+     * This is an inner proxy-class that can ensure
      * that we have an instance to work off of.
      * 
      * @author Shawn Dempsay {@literal <sdempsay@pavlovmedia.com>}
