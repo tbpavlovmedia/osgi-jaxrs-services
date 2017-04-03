@@ -12,6 +12,11 @@ Builds
 | Master | [![Build Status](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services.svg?branch=master)](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services) |
 | 1.0 | [![Build Status](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services.svg?branch=1.0-release)](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services) |
 
+Latest Version
+--------------
+
+[ ![Download](https://api.bintray.com/packages/pavlovmedia/pavlov-media-oss/osgi-jaxrs-services/images/download.svg) ](https://bintray.com/pavlovmedia/pavlov-media-oss/osgi-jaxrs-services/_latestVersion)
+
 Reasoning
 ---------
 
