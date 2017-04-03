@@ -22,4 +22,4 @@
  * 
  * The full library is currently not available as open source.
  */
-package com.pavlovmedia.osgi.utilities.api.functional;
+package com.pavlovmedia.osgi.oss.utilities.api.functional;

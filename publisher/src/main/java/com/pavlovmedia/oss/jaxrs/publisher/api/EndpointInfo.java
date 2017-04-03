@@ -34,10 +34,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 /**
- * This class represents meta data about objects that have been
+ * This class represents meta-data about objects that have been
  * handed over to JAX-RS. Note this a simplistic pre-parsing so
- * there may be things that JAX-RS may call conflicts that it 
- * won't deal with, but its point is to be a quick debugging 
+ * there may be things that JAX-RS may call 'conflicts' that it 
+ * won't deal with. The point is to be a quick debugging 
  * reference.
  * <br /><br />
  * Note that has a similar structure to a DTO where all the properties

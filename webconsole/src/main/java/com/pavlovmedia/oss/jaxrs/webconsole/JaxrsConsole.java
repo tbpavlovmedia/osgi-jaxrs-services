@@ -119,8 +119,6 @@ public class JaxrsConsole extends AbstractWebConsolePlugin {
     
     BiConsumer<String,List<EndpointInfo>> tableRowGenerator(final PrintWriter writer) {
         return (className, entries) -> {
-            // detail the row
-            //writer.println(String.format(CLASS_ROW_FORMAT, rowClass(), className));
             entries.forEach(tableEndpointGenerator(writer, className));
         };
     }

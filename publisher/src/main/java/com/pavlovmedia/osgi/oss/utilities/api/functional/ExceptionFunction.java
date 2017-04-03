@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Pavlov Media
+ * Copyright 2016 Pavlov Media
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.pavlovmedia.osgi.oss.utilities.api.functional;
 
 /**
- * This package is a small subset of a larger utilities project. If
- * you have bundles using other facilities of this API be sure to import
- * the full version of the api bundle so that you don't end up with
- * class not found exceptions.
+ * Simplistic version of Function that can throw an exception.
+ * Note, it does not add all the default methods.
  * 
- * The full library is currently not available as open source.
+ * @author Shawn Dempsay {@literal <sdempsay@pavlovmedia.com>}
+ *
+ * @param <T> Input to apply
+ * @param <R> Return from apply
+ * @param <E> Exception that can be thrown
  */
-package com.pavlovmedia.osgi.utilities.api;
+@FunctionalInterface
+public interface ExceptionFunction<T, R, E extends Throwable> {
+    R apply(T t) throws E;
+}

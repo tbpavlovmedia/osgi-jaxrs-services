@@ -88,20 +88,20 @@ public class WidcardServiceTracker extends BaseObjectTracker {
      * This activate is here to control the service
      * tracker directly. It will start an event watcher and then scan all the 
      * existing services looking for something that appears to be JAX-RS, which is
-     * handed by the base class.
+     * handled by the base class.
      * 
      * @param properties OSGi properties passed along
      * @param context OSGi bundle context for this bundle
      * 
-     * @throws InvalidSyntaxException Should never be throw and the filter is a constant
+     * @throws InvalidSyntaxException should never be thrown because the filter is a constant
      */
     @Activate
-    protected void activator(final Map<String, Object> properties, final BundleContext context) throws InvalidSyntaxException {
+    protected void activate(final Map<String, Object> properties, final BundleContext context) throws InvalidSyntaxException {
         logDebug("Starting %s", this.getClass().getName());
         onTargetChange = Optional.ofNullable((Runnable) properties.get(CALLBACK));
         
         this.context = context;
-        context.addServiceListener(this::servicesChange, SERVICE_FILTER);
+        context.addServiceListener(this::serviceChanged, SERVICE_FILTER);
         
         // This walks all the existing services so bundle start
         // ordering has no impact on JAX-RS functions
@@ -128,7 +128,7 @@ public class WidcardServiceTracker extends BaseObjectTracker {
     @Deactivate
     protected void deactivate() {
         processing.set(false);
-        context.removeServiceListener(this::servicesChange);
+        context.removeServiceListener(this::serviceChanged);
     }
     
     /**
@@ -138,7 +138,7 @@ public class WidcardServiceTracker extends BaseObjectTracker {
      * 
      * @param event the OSGi service event
      */
-    private void servicesChange(final ServiceEvent event) {
+    private void serviceChanged(final ServiceEvent event) {
         // If we are shutting down just stop looking at services
         if (!processing.get()) {
             return;
@@ -150,13 +150,11 @@ public class WidcardServiceTracker extends BaseObjectTracker {
                 tryAddService(event.getServiceReference());
                 break;
             case ServiceEvent.UNREGISTERING:
-                //logDebug("Got service down event for %s/%s", event.getSource(), event.getServiceReference());
                 if (openReferences.contains(event.getServiceReference())) {
                     openReferences.remove(event.getServiceReference());
                     context.ungetService(event.getServiceReference());
                 }
                 removeTarget(context.getService(event.getServiceReference()));
-                
                 break;
             default:
                 // Do nothing
