@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.pavlovmedia.osgi.utilities.api;
+package com.pavlovmedia.osgi.oss.utilities.api.component;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -27,8 +27,8 @@ import java.util.function.Function;
 import org.osgi.service.component.ComponentFactory;
 import org.osgi.service.component.ComponentInstance;
 
-import com.pavlovmedia.osgi.utilities.api.functional.ExceptionConsumer;
-import com.pavlovmedia.osgi.utilities.api.functional.ExceptionFunction;
+import com.pavlovmedia.osgi.oss.utilities.api.functional.ExceptionConsumer;
+import com.pavlovmedia.osgi.oss.utilities.api.functional.ExceptionFunction;
 
 /**
  * This is a class that helps simplify how we deal with component service
