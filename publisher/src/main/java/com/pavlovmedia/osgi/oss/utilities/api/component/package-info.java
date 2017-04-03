@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Pavlov Media
+ * Copyright 2017 Pavlov Media
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.pavlovmedia.osgi.utilities.api.functional;
 
 /**
+ * This package is a small subset of a larger utilities project. If
+ * you have bundles using other facilities of this API be sure to import
+ * the full version of the api bundle so that you don't end up with
+ * class not found exceptions.
  * 
- * @author Shawn Dempsay {@literal <sdempsay@pavlovmedia.com>}
- *
- * @param <T>
- * @param <E>
+ * The full library is currently not available as open source.
  */
-@FunctionalInterface
-public interface ExceptionConsumer<T,E extends Exception> {
-    void consume(T t) throws E;
-}
+package com.pavlovmedia.osgi.oss.utilities.api.component;

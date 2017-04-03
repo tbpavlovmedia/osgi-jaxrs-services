@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.pavlovmedia.osgi.utilities.api.functional;
+package com.pavlovmedia.osgi.oss.utilities.api.functional;
 
 /**
- * Simplistic version of Function that can throw an exception.
- * Note, it does not add all the default methods.
  * 
  * @author Shawn Dempsay {@literal <sdempsay@pavlovmedia.com>}
  *
- * @param <T> Input to apply
- * @param <R> Return from apply
- * @param <E> Exception that can be thrown
+ * @param <T>
+ * @param <E>
  */
 @FunctionalInterface
-public interface ExceptionFunction<T, R, E extends Throwable> {
-    R apply(T t) throws E;
+public interface ExceptionConsumer<T,E extends Exception> {
+    void consume(T t) throws E;
 }

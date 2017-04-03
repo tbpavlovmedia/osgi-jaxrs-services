@@ -22,11 +22,11 @@ Latest Version
 Reasoning
 ---------
 
-Since this release is stronly inspired by osgi-jax-rs-connector the question may arise, why do a different one? There are a few answers to that
+Since this release is strongly inspired by osgi-jax-rs-connector the question may arise, why do a different one? There are a few answers to that
 * It seems that the primary author of the code has moved on to other projects and does not have a lot of time for updates
 * There are features that I wanted to add (like webconsole) support
 * Because of the project layout, I have yet to figure out how to bring it into eclipse to edit
-* By using different faciliies of OSGi and Java 8, I was able to create a drastically smaller runtime.
+* By using different facilities of OSGi and Java 8, I was able to create a drastically smaller runtime.
 
 Requirements
 ------------
@@ -35,7 +35,7 @@ There are 2 requirements to get this running:
 1. Java 8
 1. The Glassfish/Jersey runtime 
 
-Because this is backwards compatable you can still use the [jersey-all](http://search.maven.org/#artifactdetails%7Ccom.eclipsesource.jaxrs%7Cjersey-all%7C2.22.2%7Cjar) bundle provided by osgi-jax-rs-connector.
+Because this is backwards compatible  you can still use the [jersey-all](http://search.maven.org/#artifactdetails%7Ccom.eclipsesource.jaxrs%7Cjersey-all%7C2.22.2%7Cjar) bundle provided by osgi-jax-rs-connector.
 
 gogo shell commands
 -------------------
@@ -60,7 +60,7 @@ g!
 Webconsole
 ----------
 
-There is an addtional webconsole module that works with Apache Felix (it may work with others, it has not been tested).
+There is an additional webconsole module that works with Apache Felix (it may work with others; it has not been tested).
 
 Once installed it will add a JAX-RS section that lists the same information as the gogo commands, but in a table format.
 

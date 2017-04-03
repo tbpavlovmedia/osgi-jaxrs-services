@@ -56,7 +56,7 @@ import org.osgi.service.http.HttpService;
 import org.osgi.service.http.NamespaceException;
 import org.osgi.service.log.LogService;
 
-import com.pavlovmedia.osgi.utilities.api.ComponentHolder;
+import com.pavlovmedia.osgi.oss.utilities.api.component.ComponentHolder;
 import com.pavlovmedia.oss.jaxrs.publisher.api.EndpointInfo;
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
 import com.pavlovmedia.oss.jaxrs.publisher.impl.swagger.SwaggerEndpoint;
