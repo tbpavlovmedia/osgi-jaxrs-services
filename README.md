@@ -7,15 +7,17 @@ It is largely inspired by [osgi-jax-rs-connector](https://github.com/hstaudacher
 
 Builds
 ------
-| Branch | Status |
-|--------|---------|
-| Master | [![Build Status](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services.svg?branch=master)](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services) |
-| 1.0 | [![Build Status](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services.svg?branch=1.0-release)](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services) |
+| Branch | Status | OBR |
+|--------|--------|-----|
+| Master | [![Build Status](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services.svg?branch=master)](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services) | |
+| 1.0 | [![Build Status](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services.svg?branch=1.0-release)](https://travis-ci.org/pavlovmedia/osgi-jaxrs-services) | [repository.xml](https://raw.githubusercontent.com/pavlovmedia/osgi-jaxrs-services/1.0-release/obr/repository.xml) |
 
 Latest Version
 --------------
 
 [ ![Download](https://api.bintray.com/packages/pavlovmedia/pavlov-media-oss/osgi-jaxrs-services/images/download.svg) ](https://bintray.com/pavlovmedia/pavlov-media-oss/osgi-jaxrs-services/_latestVersion)
+[![Maven Status](https://maven-badges.herokuapp.com/maven-central/com.pavlovmedia.oss.jaxrs/com.pavlovmedia.oss.jaxrs/badge.png)](https://repo1.maven.org/maven2/com/pavlovmedia/oss/jaxrs/)
+
 
 Reasoning
 ---------

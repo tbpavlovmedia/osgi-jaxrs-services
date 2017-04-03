@@ -68,7 +68,7 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
-            <Bundle-Name>Pavlov provider Implementation</Bundle-Name>
+            <Bundle-Name>JAX-RS Services Publisher</Bundle-Name>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>
                             com.pavlovmedia.oss.jaxrs.publisher.api,

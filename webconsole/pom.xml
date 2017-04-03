@@ -50,7 +50,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-          <Bundle-Name>Pavlov provider swagger</Bundle-Name>
+          <Bundle-Name>JAX-RS Services Webconsole Support</Bundle-Name>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Export-Package></Export-Package>
             <Import-Package>*</Import-Package>
