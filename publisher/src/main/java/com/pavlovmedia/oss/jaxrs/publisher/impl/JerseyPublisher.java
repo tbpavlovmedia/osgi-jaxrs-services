@@ -81,7 +81,7 @@ import com.pavlovmedia.oss.jaxrs.publisher.impl.swagger.SwaggerEndpoint;
 })
 public class JerseyPublisher extends Application implements Publisher {
     public static final String PATH = "path";
-    
+    public static final String INHIBIT_START = "pavlovStackInhibit";
     @Reference
     LogService logger;
     
@@ -138,6 +138,13 @@ public class JerseyPublisher extends Application implements Publisher {
     @Activate
     protected void activate(final Map<String,Object> properties, final BundleContext context) {
         bundleContext = context;
+        
+        if (Boolean.valueOf(context.getProperty(INHIBIT_START))) {
+            logger.log(LogService.LOG_ERROR, "JAX-RS Start inhibited");
+            System.err.println("JAX-RS Start inhibited");
+            return;
+        }
+        
         jaxPath = (String) properties.get(PATH);
         info("JerseyPublisher activating at root %s", jaxPath);
         
