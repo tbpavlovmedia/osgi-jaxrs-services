@@ -61,6 +61,8 @@ import com.pavlovmedia.oss.jaxrs.publisher.api.EndpointInfo;
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
 import com.pavlovmedia.oss.jaxrs.publisher.impl.swagger.SwaggerEndpoint;
 
+import io.swagger.jaxrs.config.ReaderListener;
+
 /**
  * This is the main control of the JAX-RS publisher. It wraps
  * around the glassfish container and handles all the service
@@ -338,6 +340,13 @@ public class JerseyPublisher extends Application implements Publisher {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public Set<ReaderListener> getReaderListeners() {
+        return getSingletons().stream()
+                .filter(o -> o instanceof ReaderListener)
+                .map(o -> (ReaderListener) o)
+                .collect(Collectors.toSet());
+    }
     @Override
     public String subscribe(final Runnable onChange) {
         String id = UUID.randomUUID().toString();

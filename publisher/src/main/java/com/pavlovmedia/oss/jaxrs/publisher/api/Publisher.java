@@ -21,6 +21,8 @@ import java.util.Set;
 
 import javax.ws.rs.core.Feature;
 
+import io.swagger.jaxrs.config.ReaderListener;
+
 /**
  * This is mainly to help utility classes extract more information from
  * JAX-RS
@@ -70,6 +72,14 @@ public interface Publisher {
      * @return a list of feature services
      */
     Set<Feature> getFeatures();
+    
+    /**
+     * Gets the list of {@link ReaderListener} objects that
+     * have been detected by the runtime.
+     * 
+     * @return
+     */
+    Set<ReaderListener> getReaderListeners();
     
     /** Gets the web path of this publisher */
     String getPath();
