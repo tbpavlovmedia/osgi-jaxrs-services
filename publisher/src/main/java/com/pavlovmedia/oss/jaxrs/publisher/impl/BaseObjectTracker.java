@@ -148,6 +148,6 @@ public class BaseObjectTracker {
         // To be a jax target we can be a Feature, annotated with Path, or annotated with Provider
         return null != clazz.getDeclaredAnnotation(Path.class) 
                 || null != clazz.getDeclaredAnnotation(Provider.class)
-                || target instanceof Feature; 
+                || target instanceof Feature;
     }
 }
