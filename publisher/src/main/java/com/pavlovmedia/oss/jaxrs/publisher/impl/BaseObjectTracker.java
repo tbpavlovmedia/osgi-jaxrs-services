@@ -26,8 +26,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.ext.Provider;
 
-import io.swagger.jaxrs.config.ReaderListener;
-
 /**
  * This is the skeleton for a service tracker that handles filtering
  * of objects, parsing them, and storing them.
@@ -150,7 +148,6 @@ public class BaseObjectTracker {
         // To be a jax target we can be a Feature, annotated with Path, or annotated with Provider
         return null != clazz.getDeclaredAnnotation(Path.class) 
                 || null != clazz.getDeclaredAnnotation(Provider.class)
-                || target instanceof Feature
-                || target instanceof ReaderListener; 
+                || target instanceof Feature;
     }
 }
