@@ -107,7 +107,6 @@ public class SwaggerEndpoint extends DefaultJaxrsScanner implements SwaggerConfi
                 .filter(c -> c.isAnnotationPresent(Api.class))
                 .forEach(ret::add);
         publisher.getReaderListeners().forEach(ret::add);
-        ret.forEach(System.out::println);
         return ret;
     }
 
