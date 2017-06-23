@@ -115,7 +115,7 @@ public class JaxrsConsole extends AbstractWebConsolePlugin {
         pw.println("<br/><p class=\"statline ui-state-highlight\">Swagger ReaderListeners:</p>");
         pw.println("<table class=\"nicetable\"><thead><tr><th class=\"header\">Class</th></tr></thead>");
         publisher.getReaderListeners().forEach(reader -> {
-            pw.println(String.format(FEATURE_ROW_FORMAT, rowClass(), reader.getClass().getName()));
+            pw.println(String.format(FEATURE_ROW_FORMAT, rowClass(), reader.getName()));
         });
         pw.println("</table>");
     }

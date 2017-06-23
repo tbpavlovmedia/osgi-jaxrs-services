@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -60,8 +61,6 @@ import com.pavlovmedia.osgi.oss.utilities.api.component.ComponentHolder;
 import com.pavlovmedia.oss.jaxrs.publisher.api.EndpointInfo;
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
 import com.pavlovmedia.oss.jaxrs.publisher.impl.swagger.SwaggerEndpoint;
-
-import io.swagger.jaxrs.config.ReaderListener;
 
 /**
  * This is the main control of the JAX-RS publisher. It wraps
@@ -100,6 +99,8 @@ public class JerseyPublisher extends Application implements Publisher {
     
     /** Keeps track of people watching for changes */
     private ConcurrentHashMap<String, Runnable> changeWatchers = new ConcurrentHashMap<>();
+    
+    private CopyOnWriteArraySet<Class<?>> readerListenerSet = new CopyOnWriteArraySet<>();
     
     /** The path we are serving on */
     private String jaxPath;
@@ -340,13 +341,19 @@ public class JerseyPublisher extends Application implements Publisher {
                 .collect(Collectors.toSet());
     }
 
-    @Override
-    public Set<ReaderListener> getReaderListeners() {
-        return getSingletons().stream()
-                .filter(o -> o instanceof ReaderListener)
-                .map(o -> (ReaderListener) o)
-                .collect(Collectors.toSet());
+    public void addReaderListener(final Class<?> clazz) {
+        readerListenerSet.add(clazz);
     }
+    
+    public void removeReaderListener(final Class<?> clazz) {
+        readerListenerSet.remove(clazz);
+    }
+    
+    @Override
+    public Set<Class<?>> getReaderListeners() {
+        return readerListenerSet;
+    }
+    
     @Override
     public String subscribe(final Runnable onChange) {
         String id = UUID.randomUUID().toString();
