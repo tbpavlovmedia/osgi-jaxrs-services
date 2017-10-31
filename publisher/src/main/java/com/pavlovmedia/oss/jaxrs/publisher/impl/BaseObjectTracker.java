@@ -43,6 +43,7 @@ public class BaseObjectTracker {
     /**
      * This holds the set of targets that we provide to Jersey
      */
+    // XXX: Change this to a copy on write array, or lock
     protected final Set<Object> jaxrsTargets = ConcurrentHashMap.newKeySet();
     
     /**
@@ -96,6 +97,7 @@ public class BaseObjectTracker {
      * @return
      */
     public Set<Object> getJaxrsTargets() {
+        // Lock here?
         return jaxrsTargets.stream()
                 .map(m -> (Object) m)
                 .collect(Collectors.toSet());
