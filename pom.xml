@@ -65,7 +65,8 @@
     <!-- Plugin versions -->
     <checkstyle.config.location>https://raw.githubusercontent.com/pavlovmedia/checkstyle/master/pavlov.xml</checkstyle.config.location>
     <maven-bundle-plugin.version>3.0.1</maven-bundle-plugin.version>
-    <maven-scr-plugin.version>1.21.0</maven-scr-plugin.version>
+    <maven-scr-plugin.version>1.26.0</maven-scr-plugin.version>
+    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <pluginversions.javaver>1.8</pluginversions.javaver>
     <maven-jar-plugin.version>2.5</maven-jar-plugin.version>
     <pluginversions.javadoc>2.9.1</pluginversions.javadoc>
@@ -260,11 +261,13 @@
               <configuration>
                 <encoding>UTF-8</encoding>
                 <consoleOutput>true</consoleOutput>
-                <failsOnError>false</failsOnError>
+                <failsOnError>true</failsOnError>
                 <linkXRef>false</linkXRef>
               </configuration>
               <goals>
+                <goal>check</goal>
                 <goal>checkstyle</goal>
+                <goal>checkstyle-aggregate</goal>
               </goals>
             </execution>
           </executions>
@@ -276,6 +279,14 @@
           <configuration>
             <additionalparam>-Xdoclint:none</additionalparam>
           </configuration>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -301,7 +312,37 @@
             </execution>
           </executions>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+    </plugins>
   </build>
 </project>
