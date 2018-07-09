@@ -19,12 +19,14 @@ import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.ext.Provider;
+
+import org.osgi.framework.ServiceReference;
 
 /**
  * This is the skeleton for a service tracker that handles filtering
@@ -43,8 +45,7 @@ public class BaseObjectTracker {
     /**
      * This holds the set of targets that we provide to Jersey
      */
-    // XXX: Change this to a copy on write array, or lock
-    protected final Set<Object> jaxrsTargets = ConcurrentHashMap.newKeySet();
+    protected final Set<JaxReference> jaxrsTargets = new CopyOnWriteArraySet<>();
     
     /**
      * This is the callback registered during the factory creation
@@ -97,9 +98,8 @@ public class BaseObjectTracker {
      * @return
      */
     public Set<Object> getJaxrsTargets() {
-        // Lock here?
         return jaxrsTargets.stream()
-                .map(m -> (Object) m)
+                .map(JaxReference::getJaxObject)
                 .collect(Collectors.toSet());
     }
     
@@ -107,10 +107,10 @@ public class BaseObjectTracker {
      * This is called from the implementing class to add a JAX-RS target
      * @param target
      */
-    protected boolean addTarget(final Object target) {
+    protected boolean addTarget(final ServiceReference serviceReference, final Object target) {
         if (isJaxrsTarget(target.getClass(), target)) {
             logInfo("Adding target %s", target);
-            if (jaxrsTargets.add(target)) {
+            if (jaxrsTargets.add(new JaxReference(serviceReference, target))) {
                 onTargetChange.ifPresent(Runnable::run);
                 return true;
             }
@@ -122,11 +122,12 @@ public class BaseObjectTracker {
      * This is called from the implementing class to remove a JAX-RS target
      * @param target the service to be removed
      */
-    protected boolean removeTarget(final Object target) {
+    protected boolean removeTarget(final ServiceReference target) {
         // Sometimes service tracking gets us null objects
-        if (null != target && jaxrsTargets.contains(target)) {
+        if (null != target) {
             logDebug("Removing target %s", target);
-            jaxrsTargets.remove(target);
+            // JaxReference is keyed by the service reference, so we can leave the jaxObject null for this
+            jaxrsTargets.remove(new JaxReference(target, null));
             onTargetChange.ifPresent(Runnable::run);
             return true;
         }
