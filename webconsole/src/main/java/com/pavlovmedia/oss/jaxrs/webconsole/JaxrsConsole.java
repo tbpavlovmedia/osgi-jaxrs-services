@@ -26,16 +26,14 @@ import java.util.function.Consumer;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
 import org.apache.felix.webconsole.AbstractWebConsolePlugin;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.metatype.annotations.Designate;
 
 import com.pavlovmedia.oss.jaxrs.publisher.api.EndpointInfo;
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
+import com.pavlovmedia.oss.jaxrs.webconsole.config.JaxrsConsoleConfig;
 
 /**
  * This is a webconsole module that works with Apache Felix to display
@@ -47,12 +45,11 @@ import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
  * @author Shawn Dempsay {@literal <sdempsay@pavlovmedia.com>}
  *
  */
-@Component
-@Service
-@Properties({
-    @Property(name="felix.webconsole.label", value=JaxrsConsole.LABEL),
-    @Property(name=Publisher.SCAN_IGNORE, value="true")
-})
+@Component(
+        property= {
+                Publisher.SCAN_IGNORE + "=true"
+        })
+@Designate(ocd = JaxrsConsoleConfig.class)
 public class JaxrsConsole extends AbstractWebConsolePlugin {
     private static final long serialVersionUID = -8881711830329491641L;
     private static final String PAGE_ROW_FORMAT = "<tr class=\"%s ui-state-default\"><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>";

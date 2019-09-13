@@ -22,18 +22,15 @@ import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Deactivate;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
-
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
 
 /**
@@ -46,10 +43,10 @@ import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
  * @author Shawn Dempsay {@literal <sdempsay@pavlovmedia.com>}
  *
  */
-@Component(factory=WidcardServiceTracker.FACTORY_NAME)
-@Properties({
-    @Property(name="com.eclipsesource.jaxrs.publish", boolValue=false)
-})
+@Component(factory=WidcardServiceTracker.FACTORY_NAME,
+    property= {
+        "com.eclipsesource.jaxrs.publish=" + false
+    })
 public class WidcardServiceTracker extends BaseObjectTracker {
     public static final String FACTORY_NAME = "com.pavlovmedia.oss.jaxrs.provider.impl.WidcardServiceTracker";
     public static final String FACTORY_FILTER = "(component.factory="+FACTORY_NAME+")";
@@ -82,7 +79,7 @@ public class WidcardServiceTracker extends BaseObjectTracker {
     private BundleContext context;
     
     /** This is a tracker for any {@link ServiceReference} that we hold */
-    final List<ServiceReference> openReferences = new CopyOnWriteArrayList<>();
+    final List<ServiceReference<?>> openReferences = new CopyOnWriteArrayList<>();
     
     /**
      * This activate is here to control the service
@@ -144,7 +141,7 @@ public class WidcardServiceTracker extends BaseObjectTracker {
             return;
         }
         
-        ServiceReference serviceReference = event.getServiceReference();
+        ServiceReference<?> serviceReference = event.getServiceReference();
         
         switch(event.getType()) {
             case ServiceEvent.REGISTERED:
@@ -173,8 +170,9 @@ public class WidcardServiceTracker extends BaseObjectTracker {
      * 
      * @param serviceReference the service reference of the service
      */
-    private void tryAddService(final ServiceReference serviceReference) {
+    private void tryAddService(final ServiceReference<?> serviceReference) {
         try {
+            //logger.log(LogService.LOG_INFO, String.format("Adding service %s", serviceReference));
             Object jaxPage = context.getService(serviceReference);
             if (null != jaxPage) {
                 if (addTarget(serviceReference, jaxPage)) {

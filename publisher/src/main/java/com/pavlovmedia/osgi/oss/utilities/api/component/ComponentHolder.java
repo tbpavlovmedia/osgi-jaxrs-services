@@ -43,8 +43,8 @@ import com.pavlovmedia.osgi.oss.utilities.api.functional.ExceptionFunction;
  * @param <T>
  */
 public class ComponentHolder<T> implements AutoCloseable {
-    protected Optional<ComponentFactory> factory = Optional.empty();
-    protected Optional<ComponentInstance> instance = Optional.empty();
+    protected Optional<ComponentFactory<?>> factory = Optional.empty();
+    protected Optional<ComponentInstance<?>> instance = Optional.empty();
     protected Optional<T> actual = Optional.empty();
     
     /**
@@ -54,7 +54,7 @@ public class ComponentHolder<T> implements AutoCloseable {
      * 
      * @param factory
      */
-    public void setFactory(final ComponentFactory factory) {
+    public void setFactory(final ComponentFactory<?> factory) {
         if (this.factory.isPresent()) {
           throw new IllegalStateException("There is already a factory set");
         }

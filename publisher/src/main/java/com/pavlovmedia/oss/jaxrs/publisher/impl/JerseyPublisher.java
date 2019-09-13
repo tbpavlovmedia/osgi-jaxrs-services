@@ -36,13 +36,10 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.ext.Provider;
 
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Deactivate;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 import org.glassfish.jersey.media.sse.SseFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
@@ -55,11 +52,14 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentFactory;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.http.NamespaceException;
+import org.osgi.service.log.Logger;
+import org.osgi.service.log.LoggerFactory;
+import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.log.LogService;
-
 import com.pavlovmedia.osgi.oss.utilities.api.component.ComponentHolder;
 import com.pavlovmedia.oss.jaxrs.publisher.api.EndpointInfo;
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
+import com.pavlovmedia.oss.jaxrs.publisher.impl.config.PublisherConfig;
 import com.pavlovmedia.oss.jaxrs.publisher.impl.swagger.SwaggerEndpoint;
 
 /**
@@ -70,21 +70,21 @@ import com.pavlovmedia.oss.jaxrs.publisher.impl.swagger.SwaggerEndpoint;
  * @author Shawn Dempsay {@literal <sdempsay@pavlovmedia.com>}
  *
  */
-@Component(metatype=true, immediate=true)
-@Service
-@Properties({
-    // Don't scan this class or we will get a dependency cycle
-    @Property(name = Publisher.SCAN_IGNORE, value = "true", propertyPrivate=true),
-    @Property(name="com.eclipsesource.jaxrs.publish", boolValue=false, propertyPrivate=true),
-    @Property(name = JerseyPublisher.PATH, label = "JAX-RS Path",
-            description = "Path to serve JAX-RS endpoints from",
-            value = "/services"),
-})
+@Component(immediate=true,
+    property= {
+        Publisher.SCAN_IGNORE + "=true",
+        "com.eclipsesource.jaxrs.publish=" + false
+    })
+@Designate(ocd = PublisherConfig.class)
 public class JerseyPublisher extends Application implements Publisher {
     public static final String PATH = "path";
     public static final String INHIBIT_START = "pavlovStackInhibit";
+    
+    @Reference(service = LoggerFactory.class)
+    Logger logger;
+    
     @Reference
-    LogService logger;
+    LogService loggerOld;
     
     @Reference
     HttpService httpService;
@@ -94,7 +94,7 @@ public class JerseyPublisher extends Application implements Publisher {
      * new services.
      */
     @Reference(target=WidcardServiceTracker.FACTORY_FILTER)
-    ComponentFactory wildcardTrackerFactory;
+    ComponentFactory<WidcardServiceTracker> wildcardTrackerFactory;
     ComponentHolder<WidcardServiceTracker> wildcardTracker = new ComponentHolder<>();
     
     /** Keeps track of people watching for changes */
@@ -123,13 +123,13 @@ public class JerseyPublisher extends Application implements Publisher {
     private final AtomicBoolean initialized = new AtomicBoolean();
     
     /** Used to track the swagger support */
-    private Optional<ServiceReference> swaggerEndpoint = Optional.empty();
+    private Optional<ServiceReference<?>> swaggerEndpoint = Optional.empty();
     
     /** 
      * This is a set of features we will try to turn on if they
      * have bundles available
      */
-    ArrayList<ServiceRegistration> featureRegistrations = new ArrayList<>();
+    ArrayList<ServiceRegistration<?>> featureRegistrations = new ArrayList<>();
     
     /**
      * Service activator. This sets up the service tracker, starts up Jersey
@@ -139,16 +139,20 @@ public class JerseyPublisher extends Application implements Publisher {
      * @param context the {@link BundleContext for this bundle}
      */
     @Activate
-    protected void activate(final Map<String,Object> properties, final BundleContext context) {
+    protected void activate(final PublisherConfig config, final BundleContext context) {
         bundleContext = context;
         
+        logger.info("Inside activate of new logger");
+        loggerOld.log(LogService.LOG_INFO, "Inside activate of old logger");
+        
         if (Boolean.valueOf(context.getProperty(INHIBIT_START))) {
-            logger.log(LogService.LOG_ERROR, "JAX-RS Start inhibited");
+            //logger.logger(LogLevel.ERROR, "JAX-RS Start inhibited");
+            logger.error("JAX-RS Start inhibited");
             System.err.println("JAX-RS Start inhibited");
             return;
         }
         
-        jaxPath = (String) properties.get(PATH);
+        jaxPath = (String) config.jaxrsPublisherPath();
         info("JerseyPublisher activating at root %s", jaxPath);
         
         // XXX: is this needed?
@@ -195,7 +199,7 @@ public class JerseyPublisher extends Application implements Publisher {
     private void tryRegisterFeature(final Supplier<Class<?>> featureClassSupplier) {
         try {
             Object feature = featureClassSupplier.get().newInstance();
-            ServiceRegistration reg = bundleContext.registerService(featureClassSupplier.get().getName(), feature, null);
+            ServiceRegistration<?> reg = bundleContext.registerService(featureClassSupplier.get().getName(), feature, null);
             featureRegistrations.add(reg);
         } catch (NoClassDefFoundError | InstantiationException | IllegalAccessException e) {
             info("Failed to register feature if you don't need it, don't worry: %s",
@@ -244,6 +248,9 @@ public class JerseyPublisher extends Application implements Publisher {
      * ok, as soon as the scanner starts up, it will reconfigure.
      */
     private void startServlet() {
+
+        logger.info("Inside startServlet of new logger");
+        loggerOld.log(LogService.LOG_INFO, "Inside startServlet of old logger");
         try {
             container = new ServletContainer(ResourceConfig.forApplication(this));
             initialized.set(true);
@@ -290,19 +297,20 @@ public class JerseyPublisher extends Application implements Publisher {
         } else {
             debug("Jersey not up yet");
         }
+        System.out.println("singletons = " + ret);
         return ret;
     }
    
     private void debug(final String format, final Object...args) {
-        logger.log(LogService.LOG_DEBUG, String.format(format, args));
+        logger.debug(String.format(format, args));
     }
     
     private void info(final String format, final Object...args) {
-        logger.log(LogService.LOG_INFO, String.format(format, args));
+        logger.info(String.format(format, args));
     }
     
     private void error(final Exception e, final String format, final Object...args) {
-        logger.log(LogService.LOG_ERROR, String.format(format, args), e);
+        logger.error(String.format(format, args), e);
     }
     
     @Override
