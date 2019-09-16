@@ -1,7 +1,6 @@
 package com.pavlovmedia.oss.jaxrs.publisher.impl;
 
 import java.util.Objects;
-
 import org.osgi.framework.ServiceReference;
 
 /**
@@ -10,14 +9,14 @@ import org.osgi.framework.ServiceReference;
  *
  */
 public class JaxReference {
-    public final ServiceReference serivceReference;
+    public final ServiceReference<?> serivceReference;
     public final Object jaxObject;
     
     public Object getJaxObject() {
         return this.jaxObject;
     }
     
-    public JaxReference(final ServiceReference serivceReference, final Object jaxObject) {
+    public JaxReference(final ServiceReference<?> serivceReference, final Object jaxObject) {
         Objects.requireNonNull(serivceReference);
         // We allow jaxObject to be null so that we can search the set this is in faster
         

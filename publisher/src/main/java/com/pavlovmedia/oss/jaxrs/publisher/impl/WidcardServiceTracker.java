@@ -30,7 +30,9 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.log.LogService;
+import org.osgi.service.log.Logger;
+import org.osgi.service.log.LoggerFactory;
+
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
 
 /**
@@ -56,23 +58,23 @@ public class WidcardServiceTracker extends BaseObjectTracker {
     
     /** This is a blocker to keep us from parsing while we are shutting down */
     private final AtomicBoolean processing = new AtomicBoolean(true);
-    
-    @Reference
-    LogService logger;
+
+    @Reference(service = LoggerFactory.class)
+    Logger logger;
     
     @Override
     public void logDebug(final String format, final Object... args) {
-        logger.log(LogService.LOG_DEBUG, String.format(format, args));
+        logger.debug(String.format(format, args));
     }
     
     @Override
     public void logInfo(final String format, final Object... args) {
-        logger.log(LogService.LOG_INFO, String.format(format, args));
+        logger.info(String.format(format, args));
     }
     
     @Override
     public void logError(final Exception e, final String format, final Object... args) {
-        logger.log(LogService.LOG_INFO, String.format(format, args), e);
+        logger.info(String.format(format, args), e);
     }
     
     /** The context is saved so we can get and unget services */
@@ -150,11 +152,11 @@ public class WidcardServiceTracker extends BaseObjectTracker {
                 break;
             case ServiceEvent.UNREGISTERING:
                 if (openReferences.contains(serviceReference)) {
-                    logger.log(LogService.LOG_DEBUG, String.format("Removing service %s", serviceReference));
+                    logger.debug(String.format("Removing service %s", serviceReference));
                     openReferences.remove(serviceReference);
                     context.ungetService(serviceReference);
                 } else {
-                    logger.log(LogService.LOG_DEBUG, String.format("Did not find service reference %s in %s", serviceReference, openReferences));
+                    logger.debug(String.format("Did not find service reference %s in %s", serviceReference, openReferences));
                 }
                 removeTarget(serviceReference);
                 break;
@@ -172,7 +174,6 @@ public class WidcardServiceTracker extends BaseObjectTracker {
      */
     private void tryAddService(final ServiceReference<?> serviceReference) {
         try {
-            //logger.log(LogService.LOG_INFO, String.format("Adding service %s", serviceReference));
             Object jaxPage = context.getService(serviceReference);
             if (null != jaxPage) {
                 if (addTarget(serviceReference, jaxPage)) {

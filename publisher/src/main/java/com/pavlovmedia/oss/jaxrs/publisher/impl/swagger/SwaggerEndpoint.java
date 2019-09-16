@@ -30,6 +30,9 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.http.HttpService;
+import org.osgi.service.log.Logger;
+import org.osgi.service.log.LoggerFactory;
+
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
 import io.swagger.annotations.Api;
 import io.swagger.config.SwaggerConfig;
@@ -65,6 +68,9 @@ public class SwaggerEndpoint extends DefaultJaxrsScanner implements SwaggerConfi
     @Reference
     Publisher publisher;
     
+    @Reference(service = LoggerFactory.class)
+    Logger logger;
+    
     private ServiceRegistration<?> apiResource;
     private ServiceRegistration<?> serializerResource;
     
@@ -76,7 +82,7 @@ public class SwaggerEndpoint extends DefaultJaxrsScanner implements SwaggerConfi
      * @param context the context for this bundle
      */
     protected void activator(final BundleContext context) {
-        System.out.println("SwwaggerEndpoint activate");
+        logger.info("SwaggerEndpoint activate");
         // Add our scanner as the default so it will just fire
         SwaggerScannerLocator.getInstance().putScanner(SCANNER_ID, this);
         
