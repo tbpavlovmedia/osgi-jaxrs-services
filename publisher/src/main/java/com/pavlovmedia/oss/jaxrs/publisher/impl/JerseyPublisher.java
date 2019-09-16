@@ -268,7 +268,8 @@ public class JerseyPublisher extends Application implements Publisher {
      * aka add a new service, remove a service.
      */
     protected void onChange() {
-        if (initialized.get()) {
+        //if (initialized.get()) {
+        if (initialized.get() && (container.getWebComponent() != null)) {
             debug("Reloading configuration");
             container.reload(ResourceConfig.forApplication(this));
             changeWatchers.values().forEach(Runnable::run);
