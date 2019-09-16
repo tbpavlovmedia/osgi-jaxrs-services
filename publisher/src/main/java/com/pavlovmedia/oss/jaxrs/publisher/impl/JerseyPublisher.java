@@ -55,7 +55,6 @@ import org.osgi.service.http.NamespaceException;
 import org.osgi.service.log.Logger;
 import org.osgi.service.log.LoggerFactory;
 import org.osgi.service.metatype.annotations.Designate;
-import org.osgi.service.log.LogService;
 import com.pavlovmedia.osgi.oss.utilities.api.component.ComponentHolder;
 import com.pavlovmedia.oss.jaxrs.publisher.api.EndpointInfo;
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
@@ -82,9 +81,6 @@ public class JerseyPublisher extends Application implements Publisher {
     
     @Reference(service = LoggerFactory.class)
     Logger logger;
-    
-    @Reference
-    LogService loggerOld;
     
     @Reference
     HttpService httpService;
@@ -142,11 +138,7 @@ public class JerseyPublisher extends Application implements Publisher {
     protected void activate(final PublisherConfig config, final BundleContext context) {
         bundleContext = context;
         
-        logger.info("Inside activate of new logger");
-        loggerOld.log(LogService.LOG_INFO, "Inside activate of old logger");
-        
         if (Boolean.valueOf(context.getProperty(INHIBIT_START))) {
-            //logger.logger(LogLevel.ERROR, "JAX-RS Start inhibited");
             logger.error("JAX-RS Start inhibited");
             System.err.println("JAX-RS Start inhibited");
             return;
@@ -248,9 +240,6 @@ public class JerseyPublisher extends Application implements Publisher {
      * ok, as soon as the scanner starts up, it will reconfigure.
      */
     private void startServlet() {
-
-        logger.info("Inside startServlet of new logger");
-        loggerOld.log(LogService.LOG_INFO, "Inside startServlet of old logger");
         try {
             container = new ServletContainer(ResourceConfig.forApplication(this));
             initialized.set(true);
@@ -268,7 +257,6 @@ public class JerseyPublisher extends Application implements Publisher {
      * aka add a new service, remove a service.
      */
     protected void onChange() {
-        //if (initialized.get()) {
         if (initialized.get() && (container.getWebComponent() != null)) {
             debug("Reloading configuration");
             container.reload(ResourceConfig.forApplication(this));
