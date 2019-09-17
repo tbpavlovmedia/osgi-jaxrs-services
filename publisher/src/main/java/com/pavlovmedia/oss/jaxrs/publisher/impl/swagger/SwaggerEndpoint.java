@@ -55,7 +55,7 @@ import io.swagger.models.Swagger;
 @Component(
     property= {
         Publisher.SCAN_IGNORE + "=true",
-        "com.eclipsesource.jaxrs.publish=" + false,
+        "com.eclipsesource.jaxrs.publish=" + false
     })
 public class SwaggerEndpoint extends DefaultJaxrsScanner implements SwaggerConfig {
     private static final String SCANNER_ID = "swagger.scanner.id.default";

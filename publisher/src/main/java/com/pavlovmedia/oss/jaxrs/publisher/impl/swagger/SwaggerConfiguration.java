@@ -33,7 +33,7 @@ import com.pavlovmedia.oss.jaxrs.publisher.impl.config.SwaggerConfigurationConfi
 @Component(immediate=true,
     property= {
         Publisher.SCAN_IGNORE + "=true",
-        "com.eclipsesource.jaxrs.publish=" + false,
+        "com.eclipsesource.jaxrs.publish=" + false
     },
     service= {
             SwaggerConfiguration.class
