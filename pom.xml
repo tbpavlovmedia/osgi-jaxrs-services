@@ -80,7 +80,7 @@
     <!-- <scr.annotations.version>1.12.0</scr.annotations.version> -->
     <config-admin.version>1.9.16</config-admin.version>
     <log.version>1.2.0</log.version>
-    <webconsole.version>4.2.8</webconsole.version>
+    <webconsole.version>4.3.16</webconsole.version>
 
     <!-- third party -->
     <servlet.version>3.1.0</servlet.version>
