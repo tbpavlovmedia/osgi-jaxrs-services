@@ -27,17 +27,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.felix.webconsole.AbstractWebConsolePlugin;
-import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.Logger;
 import org.osgi.service.log.LoggerFactory;
-import org.osgi.service.metatype.annotations.Designate;
 
 import com.pavlovmedia.oss.jaxrs.publisher.api.EndpointInfo;
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
-import com.pavlovmedia.oss.jaxrs.publisher.impl.swagger.SwaggerConfiguration;
-import com.pavlovmedia.oss.jaxrs.webconsole.config.JaxrsConsoleConfig;
 
 /**
  * This is a webconsole module that works with Apache Felix to display
@@ -73,7 +69,7 @@ public class JaxrsConsole extends AbstractWebConsolePlugin {
     
     @Reference(service = LoggerFactory.class)
     Logger logger;
-
+    
     @Override
     public String getTitle() {
         return TITLE;
