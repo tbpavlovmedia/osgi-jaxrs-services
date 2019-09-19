@@ -78,6 +78,7 @@
     <!-- OSGi support versions -->
     <osgi.version>7.0.0</osgi.version>
     <!-- <scr.annotations.version>1.12.0</scr.annotations.version> -->
+    <osgi.component.annotations.version>1.4.0</osgi.component.annotations.version>
     <config-admin.version>1.9.16</config-admin.version>
     <log.version>1.2.0</log.version>
     <webconsole.version>4.3.16</webconsole.version>
@@ -97,7 +98,7 @@
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.service.component.annotations</artifactId>
-      <version>1.4.0</version>
+      <version>${osgi.component.annotations.version}</version>
       <scope>provided</scope>
     </dependency>
   
