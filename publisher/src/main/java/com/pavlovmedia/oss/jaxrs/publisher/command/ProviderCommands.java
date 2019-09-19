@@ -16,6 +16,7 @@
 package com.pavlovmedia.oss.jaxrs.publisher.command;
  
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.Logger;
@@ -43,6 +44,8 @@ public class ProviderCommands {
     @Reference(service = LoggerFactory.class)
     Logger logger;
     
+    @Activate
+    private ProviderCommandConfig config;
     /**
      * Lists all the registred endpoints
      */

@@ -26,14 +26,18 @@ import java.util.function.Consumer;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.felix.webconsole.AbstractWebConsolePlugin;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.Logger;
 import org.osgi.service.log.LoggerFactory;
+import org.osgi.service.metatype.annotations.Designate;
 
 import com.pavlovmedia.oss.jaxrs.publisher.api.EndpointInfo;
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
+import com.pavlovmedia.oss.jaxrs.webconsole.config.JaxrsConsoleConfig;
 
 /**
  * This is a webconsole module that works with Apache Felix to display
@@ -48,9 +52,9 @@ import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
 @Component(
         service = javax.servlet.Servlet.class,
         property= {
-                Publisher.SCAN_IGNORE + "=true",
-                "felix.webconsole.label=" + JaxrsConsole.LABEL
+                Publisher.SCAN_IGNORE + "=true"
         })
+@Designate(ocd = JaxrsConsoleConfig.class)
 public class JaxrsConsole extends AbstractWebConsolePlugin {
     private static final long serialVersionUID = -8881711830329491641L;
     private static final String PAGE_ROW_FORMAT = "<tr class=\"%s ui-state-default\"><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>";
@@ -67,6 +71,9 @@ public class JaxrsConsole extends AbstractWebConsolePlugin {
         return LABEL;
     }
     
+    @Activate
+    private JaxrsConsoleConfig config;
+    
     @Reference(service = LoggerFactory.class)
     Logger logger;
     
@@ -80,7 +87,6 @@ public class JaxrsConsole extends AbstractWebConsolePlugin {
     @Override
     protected void renderContent(final HttpServletRequest req, final HttpServletResponse res)
             throws ServletException, IOException {
-        logger.info("Inside JaxrsConsole's renderContext");
         PrintWriter pw = res.getWriter();
         renderPageSet(pw);
         even.set(false);

@@ -70,10 +70,12 @@ import com.pavlovmedia.oss.jaxrs.publisher.impl.swagger.SwaggerEndpoint;
  *
  */
 @Component(immediate=true,
+    //OSGi properties that do not require editting via the ConfigMgr by declaring them in this property array.
     property= {
         Publisher.SCAN_IGNORE + "=true",
         "com.eclipsesource.jaxrs.publish=" + false
     })
+// With @Designate, mark this OSGi service as taking the Configuration class as the config to be passed into @Activate, @Deactivate and @Modified methods
 @Designate(ocd = PublisherConfig.class)
 public class JerseyPublisher extends Application implements Publisher {
     public static final String PATH = "path";
@@ -121,6 +123,8 @@ public class JerseyPublisher extends Application implements Publisher {
     /** Used to track the swagger support */
     private Optional<ServiceReference<?>> swaggerEndpoint = Optional.empty();
     
+    @Activate
+    private PublisherConfig config;
     /** 
      * This is a set of features we will try to turn on if they
      * have bundles available
@@ -144,7 +148,7 @@ public class JerseyPublisher extends Application implements Publisher {
             return;
         }
         
-        jaxPath = (String) config.jaxrsPublisherPath();
+        jaxPath = (String) config.path();
         info("JerseyPublisher activating at root %s", jaxPath);
         
         // XXX: is this needed?
