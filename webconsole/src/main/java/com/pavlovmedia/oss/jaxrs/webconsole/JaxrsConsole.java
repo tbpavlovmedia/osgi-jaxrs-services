@@ -42,7 +42,7 @@ import com.pavlovmedia.oss.jaxrs.webconsole.config.JaxrsConsoleConfig;
 /**
  * This is a webconsole module that works with Apache Felix to display
  * state about the JAX-RS system.
- * <br/><br/>
+ *
  * Note that this may work in other OSGi implementations, but has not been
  * tested.
  * 

@@ -134,9 +134,8 @@ public class JerseyPublisher extends Application implements Publisher {
     /**
      * Service activator. This sets up the service tracker, starts up Jersey
      * and registers a number of features that get used by common applications.
-     * 
-     * @param properties OSGi properties
-     * @param context the {@link BundleContext for this bundle}
+     * @param config - A PublisherConfig
+     * @param context - A BundleContext
      */
     @Activate
     protected void activate(final PublisherConfig config, final BundleContext context) {
@@ -188,8 +187,6 @@ public class JerseyPublisher extends Application implements Publisher {
      * is for SSE, it is listed as an optional import in the manifest
      * so one may choose not to bring it in, and this should allow the
      * system to run, even without it.
-     * 
-     * @param featureClassSupplier A lambda that returns a class to register
      */
     // This catches Exception because OSGi can make this fail in unusual ways
     private void tryRegisterFeature(final Supplier<Class<?>> featureClassSupplier) {
