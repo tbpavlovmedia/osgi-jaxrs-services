@@ -215,9 +215,6 @@
           </configuration>-->
           <configuration>
             <release>${pluginversions.javaver}</release>
-            <jdkToolchain>
-                <version>11</version>
-            </jdkToolchain>
           </configuration>
         </plugin>
         <plugin>
