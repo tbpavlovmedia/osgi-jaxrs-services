@@ -70,7 +70,7 @@ import com.pavlovmedia.oss.jaxrs.publisher.impl.swagger.SwaggerEndpoint;
  *
  */
 @Component(immediate=true,
-    //OSGi properties that do not require editting via the ConfigMgr by declaring them in this property array.
+    //OSGi properties that do not require editing via the ConfigMgr by declaring them in this property array.
     property= {
         Publisher.SCAN_IGNORE + "=true",
         "com.eclipsesource.jaxrs.publish=" + false
@@ -176,7 +176,7 @@ public class JerseyPublisher extends Application implements Publisher {
         } catch (InvalidSyntaxException | NoClassDefFoundError e) {
             // These errors are directly impacted to the optional
             // imports from swagger
-            info("Not enabling swagger at this time");
+            logger.info("Not enabling swagger at this time - ", e);
         }
     }
     
@@ -206,6 +206,7 @@ public class JerseyPublisher extends Application implements Publisher {
      */
     private void tryStartSwagger() {
         try {
+            logger.info("Starting swagger. In tryStartSwagger.");
             // We will search for a service reference that implements swagger
             // this is a loose relation so that we are able to fail easily
             swaggerEndpoint = Optional.ofNullable(bundleContext.getServiceReference(SwaggerEndpoint.class.getName()));
@@ -216,6 +217,7 @@ public class JerseyPublisher extends Application implements Publisher {
                 info("Swagger support enabled");
             }
         } catch (NoClassDefFoundError e) {
+            logger.error("No class def found - ",e);
             // This will happen if we can't resolve the swagger imports
         }
     }
