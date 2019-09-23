@@ -177,7 +177,7 @@ public class JerseyPublisher extends Application implements Publisher {
         } catch (InvalidSyntaxException | NoClassDefFoundError e) {
             // These errors are directly impacted to the optional
             // imports from swagger
-            info("Not enabling swagger at this time");
+            logger.error("Not enabling swagger at this time", e);
         }
     }
     
@@ -209,6 +209,7 @@ public class JerseyPublisher extends Application implements Publisher {
      */
     private void tryStartSwagger() {
         try {
+            logger.info("Starting swagger");
             // We will search for a service reference that implements swagger
             // this is a loose relation so that we are able to fail easily
             swaggerEndpoint = Optional.ofNullable(bundleContext.getServiceReference(SwaggerEndpoint.class.getName()));
@@ -220,6 +221,7 @@ public class JerseyPublisher extends Application implements Publisher {
             }
         } catch (NoClassDefFoundError e) {
             // This will happen if we can't resolve the swagger imports
+            logger.error("No class def found - ", e);
         }
     }
     
