@@ -12,7 +12,7 @@ import com.pavlovmedia.oss.jaxrs.publisher.impl.JerseyPublisher;
         description="Configuration for Jersey Publisher"
 )
 public @interface PublisherConfig {
-    // Each method marked with @AttributeDefinition will rendering the OSGi Configuration Manager web console as a field.
+    // Each method marked with @AttributeDefinition will render the OSGi Configuration Manager web console as a field.
     // The _'s in the method names are transformed to . when the OSGi property names are generated.
     // Example: max_size -> max.size, user_name_default -> user.name.default
     @AttributeDefinition(name=JerseyPublisher.PATH, description = "Path to serve JAX-RS endpoints from")

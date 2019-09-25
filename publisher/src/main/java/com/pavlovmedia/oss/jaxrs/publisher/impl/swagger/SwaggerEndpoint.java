@@ -53,6 +53,7 @@ import io.swagger.models.Swagger;
  *
  */
 @Component(
+    service = SwaggerEndpoint.class,
     property= {
         Publisher.SCAN_IGNORE + "=true",
         "com.eclipsesource.jaxrs.publish=" + false
